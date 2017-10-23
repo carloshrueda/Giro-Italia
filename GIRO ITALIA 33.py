@@ -149,7 +149,7 @@ def consultarTiempoCiclistaxEtapa(etapas, ciclistas, resuletapas):
                                 print("Nombre del ciclista: ", nomciclista)
                                 print("Equipo del ciclista: ", nomequipo)
                                 print("Kilometros del cilista en la etapa", kmEtapaCi)
-                                print("Tiempo del cilista en la etapa", tmEtapaCi)
+                                print("* Tiempo del cilista en la etapa", tmEtapaCi)
 
             print("")
             opcion = inputContinuarSN("Desea consultar otra etapa?")
