@@ -65,6 +65,97 @@ def existeEtapaCiclista(etapa, numero, resuletapas):
             return fila
     return -1
 
+
+def consultarTiempoCiclistaxEtapa(etapas, ciclistas, resuletapas):
+    # matriz etapas : [[nombre, origen, destino, kilometros]]
+    # matrix ciclistas [ [nomequipo, numero, nombreciclista] ]
+    # matriz resuletapas : [[nombreEtapa, numCiclista, kilometros, tiempo]]
+
+    # dibuja el menu
+    print("--- MENU GIRO ITALIA---\n")
+    print("    2. CONSULTAR")
+    print("       f. Tiempo del ciclista por etapa\n")
+
+    if len(etapas) == 0:
+        print("***> Error. No se han ingresado etapas para poder consultar.")
+        print("     Presione cualquier tecla para continuar... ")
+        input()
+
+    elif len(ciclistas) == 0:
+        print("***> Error. No se han ingresado ciclistas para poder consultar.")
+        print("     Presione cualquier tecla para continuar... ")
+        input()
+
+    elif len(resuletapas) == 0:
+        print("***> Error. No se han ingresado resultados por etapa para poder consultar.")
+        print("     Presione cualquier tecla para continuar... ")
+        input()
+
+    else:
+        opcion = ""
+        while opcion != "N":
+            etapa = input("\nNombre de la etapa que desea consultar? ")
+            etapa = etapa.strip()
+            if len(etapa) == 0:
+                # nombre equipo invalido. vacio
+                print("***> Error, Nombre de la etapa inválido. Intente nuevamente.")
+
+            else:
+                # si no es vacío hacer
+                etapa = etapa.upper()
+                fila = existeEtapa(etapa, etapas)
+                if fila == -1:
+                    # no existe la etapa
+                    print("---> La etapa no existe")
+                else:
+                    # la etapa existe
+                    # preguntar por el número del ciclista y validar si este existe
+                    numero = input("Número del Ciclista? ")
+                    numero = numero.strip()
+                    if len(numero) == 0:
+                        # numero vacío
+                        print("***> Error, número de ciclista inválido. Intente nuevamente")
+                    else:
+                        # numero valido, entonces validar si el ciclista existe
+                        filanuci = existenumerociclista(numero, ciclistas)
+                        if filanuci == -1:
+                            # No existe el número del ciclistas
+                            print("***> Error, el ciclista con ese número no ha sido registrado. Intente nuevamente")
+                        else:
+                            # Si existe el número del ciclista,
+                            # entonces buscar el resultado del ciclista en la etapa
+                            filEtaCi = existeEtapaCiclista(etapa, numero, resuletapas)
+                            if filEtaCi == -1:
+                                # No existe datos del ciclista en la etapa
+                                print("***> Error, no hay datos del ciclista en la etapa")
+                            else:
+                                # existen datos para el ciclista en la etapa
+                                # Imprimir datos
+                                origen = etapas[fila][1]
+                                destino = etapas[fila][2]
+                                kmetapa = etapas[fila][3]
+                                nomequipo = ciclistas[filanuci][0]
+                                nomciclista = ciclistas[filanuci][2]
+                                kmEtapaCi = resuletapas[filEtaCi][2]
+                                tmEtapaCi = resuletapas[filEtaCi][3]
+
+                                print("")
+                                print("Etapa: ", etapa)
+                                print("Origen de la etapa: ", origen)
+                                print("Destino de la etapa: ", destino)
+                                print("Kilometros de la etapa", kmetapa)
+                                print("")
+                                print("Numero del ciclista: ", numero)
+                                print("Nombre del ciclista: ", nomciclista)
+                                print("Equipo del ciclista: ", nomequipo)
+                                print("Kilometros del cilista en la etapa", kmEtapaCi)
+                                print("Tiempo del cilista en la etapa", tmEtapaCi)
+
+            print("")
+            opcion = inputContinuarSN("Desea consultar otra etapa?")
+            print("")
+
+
 def consultarKilometrosCiclistasxEtapas(etapas, ciclistas, resuletapas):
     # matriz etapas : [[nombre, origen, destino, kilometros]]
     # matrix ciclistas [ [nomequipo, numero, nombreciclista] ]
@@ -135,7 +226,7 @@ def consultarKilometrosCiclistasxEtapas(etapas, ciclistas, resuletapas):
                                 kmetapa = etapas[fila][3]
                                 nomequipo = ciclistas[filanuci][0]
                                 nomciclista = ciclistas[filanuci][2]
-                                kmEtapaCi = resuletapas[filEtaCi][3]
+                                kmEtapaCi = resuletapas[filEtaCi][2]
 
                                 print("")
                                 print("Etapa: ", etapa)
@@ -151,6 +242,7 @@ def consultarKilometrosCiclistasxEtapas(etapas, ciclistas, resuletapas):
             print("")
             opcion = inputContinuarSN("Desea consultar otra etapa?")
             print("")
+
 
 def consultarKilometrosxEtapas(etapas):
     # matriz etapas : [[nombre, origen, destino, kilometros]]
@@ -182,8 +274,8 @@ def consultarKilometrosxEtapas(etapas):
                     # no existe la etapa
                     print("---> La etapa no existe")
                 else:
-                    #la etapa existe
-                    kmetapa= etapas[fila][3]
+                    # la etapa existe
+                    kmetapa = etapas[fila][3]
                     if kmetapa <= 0:
                         # los kilometros no han sido ingresaados
                         print("---> Los kilometros no han sido ingresados.")
@@ -382,14 +474,13 @@ def menuConsultar(equipos, ciclistas, etapas, resuletapas):
             # matriz etapas : [[nombre, origen, destino, kilometros]]
             # matrix ciclistas [ [nomequipo, numero, nombreciclista] ]
             # matriz resuletapas : [[nombreEtapa, numCiclista, kilometros, tiempo]]
-             consultarKilometrosCiclistasxEtapas(etapas, ciclistas, resuletapas)
+            consultarKilometrosCiclistasxEtapas(etapas, ciclistas, resuletapas)
 
         elif opcion == "F":
             # matriz etapas : [[nombre, origen, destino, kilometros]]
             # matrix ciclistas [ [nomequipo, numero, nombreciclista] ]
             # matriz resuletapas : [[nombreEtapa, numCiclista, kilometros, tiempo]]
-            # consultarTiempoCiclistaxEtapa(etapas, ciclistas, resuletapas)
-            pass
+            consultarTiempoCiclistaxEtapa(etapas, ciclistas, resuletapas)
 
 
 def ingresarTiempoCiclistaxEtapa(etapas, ciclistas, resuletapas):
